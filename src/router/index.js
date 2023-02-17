@@ -1,25 +1,34 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import PopUp from "@/components/PopUp.vue";
+import TestView from "@/views/TestView.vue";
 
 const routes = [
   {
+    name: 'Home',
     path: '/',
-    name: 'home',
-    component: HomeView
+    component: () => import("@/views/HomeView.vue"),
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    name: 'Input',
+    path: '/bot/:jetBotId/:telegramId/:object',
+    component: () => import("@/views/HomeView.vue"),
+    meta: { tg: true }
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
+})
+
+router.beforeEach((to) => {
+  console.log(to);
+  if (to.meta.tg) {
+    localStorage.setItem('jetBotId', to.params.jetBotId)
+    localStorage.setItem('telegramId', to.params.telegramId)
+    localStorage.setItem('object', to.params.telegramId)
+  }
 })
 
 export default router
