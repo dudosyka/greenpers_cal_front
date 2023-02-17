@@ -47,5 +47,6 @@ export default {
   flex-direction: column;
   margin-left: 0;
   margin-right: 0;
+  border:1px solid dodgerblue;
 }
 </style>
