@@ -160,7 +160,7 @@ export default {
           month: fromServer[0].month,
           days: JSON.parse(fromServer[0].days)
         }
-        this.old[this.diff].days = {
+        this.old[this.diff] = {
           month: fromServer[0].month,
           days: JSON.parse(fromServer[0].days)
         };
@@ -240,9 +240,9 @@ export default {
       this.currMarker = type;
     },
     getFirstDay(monthIndex){
-      for (const day in this.months[monthIndex].days) {
-        if (this.months[monthIndex].days[day].month !== false)
-          return this.months[monthIndex].days[day];
+      for (const day in this.months[0].days) {
+        if (this.months[0].days[day].month !== false)
+          return this.months[0].days[day];
       }
     },
     selectDay(day, index) {
@@ -292,8 +292,8 @@ export default {
         all[el.day + 1] = this.getDimaType(el);
       });
       let changed = {};
-      console.log(this.old[0].days.days);
-      this.old[0].days.days.forEach((el, index) => {
+      console.log(this.old[0].days);
+      this.old[0].days.forEach((el, index) => {
         const actual = this.months[0].days[index];
         console.log(el.day, el.type, actual.type);
         if (el.type != actual.type) {
