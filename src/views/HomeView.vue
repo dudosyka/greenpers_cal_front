@@ -316,13 +316,13 @@ export default {
         changed
       };
 
-      console.log(data);
+      // console.log(data);
 
-      // axios.post('https://hook.eu1.make.com/mebpqgpxpmv7rdysjcllx4n6bd9av64l', {
-      //   data
-      // }).then(res => {
-      //   console.log(res);
-      // })
+      axios.post('https://hook.eu1.make.com/mebpqgpxpmv7rdysjcllx4n6bd9av64l', {
+        data
+      }).then(res => {
+        console.log(res);
+      })
     }
   },
   computed: {
