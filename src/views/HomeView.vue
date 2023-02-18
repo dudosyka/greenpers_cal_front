@@ -305,6 +305,7 @@ export default {
           changed[el.day + 1] = `было: ${this.getDimaType(el)}, стало: ${this.getDimaType(actual)}`
         }
       });
+      this.old[this.diff] = JSON.parse(JSON.stringify(this.months[this.diff]));
       const data = {
         object: localStorage.getItem('object'),
         phone: localStorage.getItem('phone'),
