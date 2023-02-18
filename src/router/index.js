@@ -11,7 +11,7 @@ const routes = [
   },
   {
     name: 'Input',
-    path: '/bot/:jetBotId/:telegramId/:object',
+    path: '/bot/:jetBotId/:telegramId/:object/:phone',
     component: () => import("@/views/HomeView.vue"),
     meta: { tg: true }
   }
@@ -27,7 +27,8 @@ router.beforeEach((to) => {
   if (to.meta.tg) {
     localStorage.setItem('jetBotId', to.params.jetBotId)
     localStorage.setItem('telegramId', to.params.telegramId)
-    localStorage.setItem('object', to.params.telegramId)
+    localStorage.setItem('object', to.params.object)
+    localStorage.setItem('phone', to.params.phone)
   }
 })
 
