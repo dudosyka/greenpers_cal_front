@@ -24,10 +24,6 @@ export class Api {
         const object = localStorage.getItem('object')
         const phone = localStorage.getItem('phone')
 
-        axios.post(`${this.endPoint}/save/${jbId}/${tgId}/${object}/${phone}`, {data}).then(data => {
-            console.log(data);
-        }).catch(err => {
-            console.error(err);
-        })
+        axios.post(`${this.endPoint}/save/${jbId}/${tgId}/${object}/${phone}`, {data});
     }
 }

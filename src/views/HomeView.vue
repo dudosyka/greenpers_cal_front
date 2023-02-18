@@ -102,10 +102,8 @@ export default {
       this.startedMonth++
       this.startedDate = -3;
       this.prevMonth();
-      console.log('MONTH', this.diff, this.yearNum, this.monthNum)
       await this.calculate(true);
       this.nextMonth();
-      console.log('MONTH', this.diff, this.yearNum, this.monthNum)
     }
     this.yearNum = (new Date()).getFullYear();
     this.loaded = false;
@@ -166,23 +164,31 @@ export default {
       const fromServer = await api.getData(this.monthNum);
       if (fromServer.length) {
         this.firstIn = 3;
-        const days = JSON.parse(fromServer[0].days).map(el => {
-          if ((el.day < this.startedDate + this.firstIn && el.type == 'default') || (readonly && el.type == 'default')) {
-            return {
-              ...el,
-              readonly,
-              type: 'disabled'
-            }
-          }
-          return {...el, readonly};
-        });
         this.months[this.diff] = {
           month: fromServer[0].month,
-          days
+          days: JSON.parse(fromServer[0].days).map(el => {
+            if ((el.day < this.startedDate + this.firstIn && el.type == 'default') || (readonly && el.type == 'default')) {
+              return {
+                ...el,
+                readonly,
+                type: 'disabled'
+              }
+            }
+            return {...el, readonly};
+          })
         }
         this.old[this.diff] = {
           month: fromServer[0].month,
-          days
+          days: JSON.parse(fromServer[0].days).map(el => {
+            if ((el.day < this.startedDate + this.firstIn && el.type == 'default') || (readonly && el.type == 'default')) {
+              return {
+                ...el,
+                readonly,
+                type: 'disabled'
+              }
+            }
+            return {...el, readonly};
+          })
         };
         return;
       }
@@ -194,7 +200,6 @@ export default {
       const firstWeekDay = firstDay.getDay()
       let lastDayCurMonth = new Date(year,month+1,-1).getDate()
 
-      console.log(lastDayCurMonth);
       if (lastDayCurMonth == 27 && this.yearNum % 4 == 0) {
         lastDayCurMonth = 28;
       }
@@ -219,13 +224,10 @@ export default {
         })
       }
 
-      console.log('calculation');
-
       this.months[this.diff].month = this.monthNum;
       this.old[this.diff].month = this.monthNum;
       this.months[this.diff].days = days;
       this.old[this.diff].days = days;
-      console.log(this.old);
     },
     calculateType(day) {
       if (this.startedMonth < this.monthNum) {
@@ -250,7 +252,6 @@ export default {
       }
     },
     selectDay(day, index) {
-      console.log(day);
       if (day.readonly) {
         this.showPopup(true, "Вы не можете менять смены в уже прошедших днях, а также ранее 3 дней до начала смены.")
         return;
@@ -298,10 +299,8 @@ export default {
         all[el.day + 1] = this.getDimaType(el);
       });
       let changed = {};
-      console.log(this.old[0].days);
-      this.old[0].days.forEach((el, index) => {
-        const actual = this.months[0].days[index];
-        console.log(el.day, el.type, actual.type);
+      this.old[this.diff].days.forEach((el, index) => {
+        const actual = this.months[this.diff].days[index];
         if (el.type != actual.type) {
           changed[el.day + 1] = `было: ${this.getDimaType(el)}, стало: ${this.getDimaType(actual)}`
         }
@@ -316,13 +315,9 @@ export default {
         changed
       };
 
-      // console.log(data);
-
       axios.post('https://hook.eu1.make.com/mebpqgpxpmv7rdysjcllx4n6bd9av64l', {
         data
-      }).then(res => {
-        console.log(res);
-      })
+      });
     }
   },
   computed: {

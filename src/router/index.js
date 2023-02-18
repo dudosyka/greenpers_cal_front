@@ -23,7 +23,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  console.log(to);
   if (to.meta.tg) {
     localStorage.setItem('jetBotId', to.params.jetBotId)
     localStorage.setItem('telegramId', to.params.telegramId)
